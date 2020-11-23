@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Test Suite</title>
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-2.12.0.css">
+</head>
+
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+    <script src="controller.js"></script>
+    <script src="https://code.jquery.com/qunit/qunit-2.12.0.js"></script>
+
+    <script>
+
+        // model - deklarere variablene, men gi verdi i hver enkelt test
+        var points;
+        var pointsPerClick;
+        var smileyIndex;
+
+        // view - vi trenger en dummyversjon av updateView()
+        function updateView() { }
+
+        QUnit.module('click', function () {
+            QUnit.test('click increases points by 1', function (assert) {
+                points = 0;
+                pointsPerClick = 1;
+                smileyIndex = 0;
+                doClick();
+                let actualPoints = points;
+                let expectedPoints = 1;
+                assert.equal(actualPoints, expectedPoints);
+                let actualSmileyIndex = smileyIndex;
+                let expectedSmileyIndex = 1;
+                assert.equal(actualSmileyIndex, expectedSmileyIndex);
+            });
+
+            QUnit.test('click increases points by 9', function (assert) {
+                points = 0;
+                pointsPerClick = 9;
+                smileyIndex = 1;
+                doClick();
+                let actualPoints = points;
+                let expectedPoints = 9;
+                assert.equal(actualPoints, expectedPoints);
+                let actualSmileyIndex = smileyIndex;
+                let expectedSmileyIndex = 0;
+                assert.equal(actualSmileyIndex, expectedSmileyIndex);
+            });
+        });
+
+
+        QUnit.module('upgrade', function () {
+            QUnit.test('no upgrade', function (assert) {
+                points = 0;
+                pointsPerClick = 1;
+                smileyIndex = 0;
+                buyUpgrade();
+                let actualPointsPerClick = pointsPerClick;
+                let expectedPointsPerClick = 1;
+                assert.equal(actualPointsPerClick, pointsPerClick);
+            });
+
+            QUnit.test('upgrade', function (assert) {
+                points = 20;
+                pointsPerClick = 1;
+                smileyIndex = 0;
+                buyUpgrade();
+                let actualPointsPerClick = pointsPerClick;
+                let expectedPointsPerClick = 2;
+                assert.equal(actualPointsPerClick, pointsPerClick);
+            });
+        });
+    </script>
+</body>
+
+</html>

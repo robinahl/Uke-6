@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <input oninput="changeColumnCount(this.value)" type="range" min="1" max="100" value="5"/>
+        <div id="multiplicationMatrix"></div>
+        <script>
+            // hjelpevariabler for view og controller
+            let multiplicationMatrixDiv = document.getElementById('multiplicationMatrix');
+
+            // model
+            let columnCount = 5;
+            let multiplicationMatrix = [
+                1, 2, 3, 4, 5,
+                2, 4, 6, 8, 10,
+                3, 6, 9, 12, 15,
+                4, 8, 12, 16, 20,
+                5, 10, 15, 20, 25
+            ];
+
+            // view
+            show();
+            function show() {
+                let html = '';
+                for (let i = 0; i < multiplicationMatrix.length; i++) {
+                    let number = multiplicationMatrix[i];
+                    html += `<div>${number}</div>`;
+                }
+                multiplicationMatrixDiv.innerHTML = html;
+                multiplicationMatrixDiv.style.display = 'grid';
+                multiplicationMatrixDiv.style.gridTemplateColumns = `repeat(${columnCount},40px)`;
+            }
+
+            function changeColumnCount(value) {
+                columnCount = value;
+                multiplicationMatrix = [];
+                for (let n1 = 1; n1 <= value; n1++) {
+                    for (let n2 = 1; n2 <= value; n2++) {
+                        multiplicationMatrix.push(n1 * n2)
+                    }
+                }
+                show();
+            }
+        </script>
+    </body>
+</html>

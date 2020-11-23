@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .square{
+            height: 100px;
+            width: 100px;
+            float: left;
+            padding: 12px;
+            background-color: blue;
+            border: 1px solid black;
+            color:red;
+            font-size: 90px;
+            text-align: center;
+            justify-content: center;
+            /* vertical-align: middle; */
+        }
+
+        .square:nth-child(3n +1){
+            clear: left;
+            /* background-color: green; */
+        }
+        .winner{
+            font-size: 100px;
+            position: absolute;
+            top:50%;
+
+        }
+        .hver3{
+            clear:left;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="clearBoard()">Clear Board</button>
+   <div id="game"></div>
+
+<script>
+    const gameDiv = document.getElementById("game");
+    let constructBoard = "";
+    let board = ["","","","","","","","",""];
+    let turnCounter = 0;
+    let winner = "";
+
+    // let hver3Rute % 3 == 0? "hver3":"";
+    checkBoard();
+    showView();
+    function showView(){
+        if(constructBoard != ""){
+        gameDiv.innerHTML = `${constructBoard}
+        <p class="winner">${winner}</p>
+        `;
+        }
+
+    }
+
+    function checkBoard(){
+        constructBoard = "";
+        for(let i = 0; i < board.length; i++){
+            constructBoard += `<div onclick="placeBrick(${i})" class="square">${board[i]}</div>`;
+            // constructBoard += `<div onclick="placeBrick(${i})" class="square ${hver3Rute}">${board[i]}</div>`;
+
+        }
+        showView();
+    }
+    function placeBrick(boardRuteIndex){
+    //    console.log(boardRuteIndex);
+         if(board[boardRuteIndex] != "") return;
+        //  console.log("slår ifen til ?");
+         if(turnCounter % 2 == 0){
+         board[boardRuteIndex] = "X";
+        }
+         else{
+         board[boardRuteIndex] = "O";
+         }
+         checkWinner(turnCounter);
+     checkBoard();
+
+     turnCounter ++;
+    }
+    function checkWinner(turnCounter){
+        let brikke = (turnCounter % 2 == 0)? "X":"O";
+
+        if(board[0] == board[2] && board[1] == board[2] //3 første sjekker bortover
+        || board[3] == brikke && board[4] == brikke && board[5] == brikke
+        || board[6] == brikke && board[7] == brikke && board[8] == brikke
+            // disse 3 sjekker nedover
+        || board[0] == brikke && board[3] == brikke && board[6] == brikke
+        || board[1] == brikke && board[4] == brikke && board[7] == brikke
+        || board[2] == brikke && board[5] == brikke && board[8] == brikke
+            // disse sjekker diagonalt
+        || board[0] == brikke && board[4] == brikke && board[8] == brikke
+        || board[2] == brikke && board[4] == brikke && board[6] == brikke)
+        {
+
+            console.log(`${brikke} vinner!!`);
+           winner = brikke + " Vinner!!";
+
+        }
+
+        // if(board[0] == brikke && board[1] == brikke && board[2] == brikke
+        // || board[3] == "X" && board[4] == "X" && board[5] == "X"
+        // || board[6] == "X" && board[7] == "X" && board[8] == "X"
+
+        // || board[0] == "X" && board[3] == "X" && board[6] == "X"
+        // || board[1] == "X" && board[4] == "X" && board[7] == "X"
+        // || board[2] == "X" && board[5] == "X" && board[8] == "X"
+
+        // || board[0] == "X" && board[4] == "X" && board[8] == "X"
+        // || board[2] == "X" && board[4] == "X" && board[6] == "X"){
+
+        //     console.log("O vinner!!");
+        // }
+
+    }
+    function clearBoard(){
+        board = ["","","","","","","","",""];
+        turnCounter = 0;
+        winner = "";
+       checkBoard();
+    }
+
+
+
+</script>
+
+
+</body>
+</html>

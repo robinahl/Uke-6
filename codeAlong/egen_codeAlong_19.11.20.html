@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Brettspill</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+        <style>
+            .square{
+                height: 100px;
+                width: 100px;
+                float: left;
+                padding: 12px;
+                background-color: blue;
+                border: 1px solid black;
+                color: red;
+                font-size: 90px;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .square:nth-child(3n +1){
+                clear: left;
+            }
+
+            .winner{
+                font-size: 100px;
+                position: absolute;
+                top: 50%;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div id="game"></div>
+        <button onclick="clearBoard()">Clear Board</button>
+
+    <script>
+        const gameDiv = document.getElementById("game");
+        let constructBoard = "";
+        let board = ["","","","","","","","",""];
+        let turnCounter = 0;
+        let winner = "";
+
+        checkBoard();
+        showView();
+        function showView() {
+            console.log(constructBoard)
+            if(constructBoard != ""){
+            gameDiv.innerHTML = `${constructBoard}
+            <p class="winner">${winner}</p>
+            `;
+            }
+
+        }
+        function checkBoard() {
+            constructBoard = "";
+            for(let i = 0; i < board.length; i++){
+                constructBoard += `<div onclick="placeBrick(${i})" class="square">${board[i]}</div>`;
+                // console.log(constructBoard)
+
+            }
+            checkWinner();
+            showView();
+
+        }
+        function placeBrick(boardRuteIndex){
+            // console.log(boardRuteIndex);
+            if(board[boardRuteIndex] != "") return;
+            // console.log("slår ifen til ?")
+            if(turnCounter % 2 == 0){
+            board[boardRuteIndex] = "X";
+            }
+            else{
+            board[boardRuteIndex] = "O";
+            }
+            checkWinner(turnCounter);
+        checkBoard();
+
+        turnCounter ++;
+        }
+        function checkWinner(turnCounter){
+            let brikke = (turnCounter % 2 == 0)? "X":"O";
+
+
+            if(board[0] == brikke && board[1] == brikke && board[2] == brikke
+            || board[3] == brikke && board[4] == brikke && board[5] == brikke
+            || board[6] == brikke && board[7] == brikke && board[8] == brikke
+
+            || board[0] == brikke && board[3] == brikke && board[6] == brikke
+            || board[1] == brikke && board[4] == brikke && board[7] == brikke
+            || board[2] == brikke && board[5] == brikke && board[8] == brikke
+
+            || board[0] == brikke && board[4] == brikke && board[8] == brikke
+            || board[7] == brikke && board[4] == brikke && board[6] == brikke){
+
+                console.log(`${brikke} vinner!`);
+                winner = brikke + " Vinner!";
+            }
+        }
+
+        function clearBoard(){
+                board = ["","","","","","","","",""];
+                turnCounter = 0;
+                winner = "";
+            checkBoard();
+        }
+
+    </script>
+
+
+    </body>
+</html>
